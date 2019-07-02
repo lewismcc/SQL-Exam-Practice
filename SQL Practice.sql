@@ -127,5 +127,53 @@ INNER JOIN regions ON countries.Region_Id = regions.Region_Id
 WHERE regions.Region_Name = 'Americas'
 ORDER BY employees.Annual_Salary DESC;
 
+/*
+output the following:
+country, department name, number of employees
+
+ordered by: number of employees
+*/
+
+SELECT * FROM Countries;
+SELECT * FROM Locations;
+
+SELECT * FROM Departments;
+SELECT * FROM Employees;
+
+SELECT Countries.Country_Name AS "Country Name",
+	   Departments.Department_Name AS "Department Name",
+       COUNT(*) AS "Number of Employees"
+FROM Employees
+JOIN Departments ON Employees.Department_No = Departments.Department_No
+JOIN Locations ON Departments.Location_ID = Locations.Location_ID
+JOIN Countries ON Locations.Country_ID = Countries.Country_ID
+GROUP BY Departments.Department_Name
+ORDER BY COUNT(*) DESC;
 
 
+/*
+return:
+first name, last name,dept name, job title, min sal
+max sal, annual sal, potential sal increase(max - Annual )
+*/
+SELECT * FROM employees;
+SELECT * FROM jobs;
+CREATE VIEW EmployeeGrowth AS 
+SELECT First_Name, Last_Name, departments.Department_Name, jobs.Job_title, 
+jobs.Min_Salary, jobs.Max_Salary, annual_Salary, (jobs.Max_Salary - employees.Annual_Salary) AS 'Potential Sal Increase' 
+FROM Employees
+JOIN jobs ON employees.Job_ID = jobs.Job_ID
+JOIN departments ON employees.Department_No = departments.department_No
+ORDER BY (jobs.Max_Salary - employees.Annual_Salary) ASC;
+
+/*
+create view that just returns managers from employee table 
+name it managar details
+*/
+CREATE VIEW ManagerDetails AS 
+SELECT * 
+FROM employeeslocations
+WHERE Employee_No = Manager_Id 
+OR Manager_Id = null ;
+SELECT * FROM ManagerDetails;
+SELECT * FROM locations;

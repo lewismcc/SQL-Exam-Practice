@@ -59,10 +59,14 @@ FROM employees
 WHERE Last_Name LIKE 'W%'
 ORDER BY Last_Name ASC;
 
-SELECT * 
-FROM employees
-WHERE Job_ID NOT LIKE '%PRO%'
-ORDER BY Annual_Salary DESC;
+-- Request eleven
+SELECT department_No, department_Name
+FROM departments
+WHERE Department_No NOT IN (SELECT Department_No FROM employees WHERE Job_Id LIKE '%Prog');
+
+SELECT * FROM employees
+WHERE Department_No = 50;
+
 
 -- find employee 100,112,115,123,250,255 order by last name alpha
 
@@ -88,6 +92,13 @@ VALUE ('IT_ANAL',  'System Analyst', 10000,15000 );
 DELETE FROM employees
 WHERE employee_no = '696';
 
+-- Request thirteen
+UPDATE Jobs 
+SET Max_Salary = Max_Salary + 1000;
+
+-- Request fourteen
+
+
 -- Request fifteen
 DELETE FROM job_history
 WHERE Employee_No ='102';
@@ -110,3 +121,19 @@ SELECT '0%' AS '% Raise',employee_No, Annual_Salary As 'Old Salary', Annual_Sala
 FROM employees
 WHERE Department_No NOT IN(10,20,50,80,90,110);
 
+-- Request seventeen
+CREATE OR REPLACE VIEW Manager_Details AS 
+SELECT * FROM employees WHERE employee_No = Manager_ID
+WITH CHECK OPTION;
+SELECT * FROM Manager_Details;
+
+
+-- request nineteen
+CREATE USER 'test@testmail.com' IDENTIFIED BY 'Passw0rd1';
+GRANT SELECT ON ManagerDetails TO 'test@testmail.com';
+
+-- Request twenty
+CREATE INDEX LOC_POSTAL_CODE 
+ON Locations (Postal_Code);
+SHOW INDEX FROM LOC_POSTAL_CODE;
+SELECT * FROM locations;
